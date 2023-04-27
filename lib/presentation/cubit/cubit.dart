@@ -51,12 +51,20 @@ class UpdateCubit extends Cubit<List<Group>>{
   }
 
   void renameGroup(int index) async{
-    if(!Hive.isAdapterRegistered(1)){
+    if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(GroupAdapter());
     }
+    if (!Hive.isAdapterRegistered(2)) {
+      Hive.registerAdapter(TaskAdapter());
+    }
+    final taskBox = await Hive.openBox<Task>('tasks_box');
+    //final task = Task(text: taskText, isDone: false);
+    final groupBox = await Hive.openBox<Group>('groups_box');
+    //final group = Group()
+
     final box = await Hive.openBox<Group>('groups_box');
-  //  await box.getAt(index).name
-    emit(box.values.toList());
+   // await box.putAt(index, value)
+   // emit(box.values.toList());
   }
 
 

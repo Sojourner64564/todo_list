@@ -96,7 +96,7 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
 
  bool isReadOnly = true;
 
- void set(){
+ void changeBoolean(){
    setState(() {
      isReadOnly = !isReadOnly;
    });
@@ -133,13 +133,14 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
             builder: (context, state) {
               return ListTile(
                 leading: Text('#${widget.index}'),
-               // subtitle: Text(isReadOnly.toString()),
+                subtitle: Text(widget.tasksUpdateCubit.),
                 title:  TextField(
                   readOnly: isReadOnly,
                     decoration: const InputDecoration(border: InputBorder.none),
                   controller: controller,
                   onEditingComplete: (){
-                    set();
+                    widget.makeGroupsListCubit.renameGroup(widget.index, controller.text);
+                    changeBoolean();
                   },
                 ),
                 //-------------------- Text((state[index] as Group).name),
@@ -158,7 +159,7 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
                   widget.updateCubit.showTasksWidget(context, widget.index, widget.updateCubit, widget.tasksUpdateCubit); //TODO: voennoe prestuplenie
                 },
                 onLongPress: (){
-                 set();
+                 changeBoolean();
                 },
               );
             }

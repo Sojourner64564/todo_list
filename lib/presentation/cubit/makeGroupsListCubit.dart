@@ -25,4 +25,24 @@ class MakeGroupsListCubit extends Cubit<List<Group>>{
     //emit(box.values.toList());
   }
 
+
+
+  void renameGroup(int index , String textFromCon) async{
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(GroupAdapter());
+    }
+    if (!Hive.isAdapterRegistered(2)) {
+      Hive.registerAdapter(TaskAdapter());
+    }
+    final groupBox = await Hive.openBox<Group>('groups_box');
+    final taskBox = await Hive.openBox<Task>('tasks_box');
+
+    final group = groupBox.getAt(index);
+    group?.name = textFromCon;
+    group?.save();
+
+    // emit(box.values.toList());
+  }
+
+
 }
