@@ -20,8 +20,8 @@ class MakeGroupsListCubit extends Cubit<List<Group>>{
       Hive.registerAdapter(GroupAdapter());
     }
     final box = await Hive.openBox<Group>('groups_box');
-    groups = box.values.toList();
-    print('object');
+    groups = box.values.toList(); //:TODO------------------
+    print(groups);
     //emit(box.values.toList());
   }
 

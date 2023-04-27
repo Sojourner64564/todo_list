@@ -56,7 +56,6 @@ class _GroupListWidgetState extends State<_GroupListWidget> {
   void initState() {
     initFirstState();
     widget.makeGroupsListCubit.makeList();
-
     super.initState();
   }
 
@@ -95,6 +94,7 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
  final TextEditingController controller = TextEditingController();
 
  bool isReadOnly = true;
+ //void updateState(){setState(() {});}
 
  void changeBoolean(){
    setState(() {
@@ -124,7 +124,7 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
             color: Colors.redAccent,
             icon: Icons.delete,
             onTap: (){
-              widget.updateCubit.deleteGroup(widget.index);
+              widget.updateCubit.deleteGroup(widget.index, widget.makeGroupsListCubit);
             },
           ),
         ],
@@ -133,7 +133,7 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
             builder: (context, state) {
               return ListTile(
                 leading: Text('#${widget.index}'),
-                subtitle: Text(widget.tasksUpdateCubit.),
+               // subtitle: Text(widget.tasksUpdateCubit.),
                 title:  TextField(
                   readOnly: isReadOnly,
                     decoration: const InputDecoration(border: InputBorder.none),

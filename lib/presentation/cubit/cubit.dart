@@ -9,7 +9,7 @@ import '../../domain/entity/group.dart';
 import '../../domain/entity/task.dart';
 import '../../providers/routes/routes.gr.dart';
 
-class UpdateCubit extends Cubit<List<Group>>{
+class UpdateCubit extends Cubit<List>{
   UpdateCubit() : super([]);
   var groupName = '';
   var tasks = <Task>[];
@@ -37,34 +37,23 @@ class UpdateCubit extends Cubit<List<Group>>{
       final group = Group(name: groupName);
       await box.add(group);
       emit(box.values.toList());
-      makeGroupsListCubit.makeList(); // паньше не было
+      makeGroupsListCubit.makeList(); // раньше не было
       navigateBack(context);
   }
 
-  void deleteGroup(int index) async{
+  void deleteGroup(int index, MakeGroupsListCubit makeGroupsListCubit) async{
     if(!Hive.isAdapterRegistered(1)){
       Hive.registerAdapter(GroupAdapter());
     }
     final box = await Hive.openBox<Group>('groups_box');
     await box.deleteAt(index);
+    makeGroupsListCubit.makeList(); // раньше не было
+
     emit(box.values.toList());
   }
 
-  void renameGroup(int index) async{
-    if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(GroupAdapter());
-    }
-    if (!Hive.isAdapterRegistered(2)) {
-      Hive.registerAdapter(TaskAdapter());
-    }
-    final taskBox = await Hive.openBox<Task>('tasks_box');
-    //final task = Task(text: taskText, isDone: false);
-    final groupBox = await Hive.openBox<Group>('groups_box');
-    //final group = Group()
+  void showFirstTask(int index) async{
 
-    final box = await Hive.openBox<Group>('groups_box');
-   // await box.putAt(index, value)
-   // emit(box.values.toList());
   }
 
 
