@@ -2,12 +2,15 @@
 import 'package:flutter/material.dart';
 
 import '../../presentation/cubit/cubit.dart';
+import '../../presentation/cubit/makeGroupsListCubit.dart';
 
 class GroupFromWidget extends StatelessWidget{
-   GroupFromWidget({required this.updateCubit});
+   GroupFromWidget({required this.updateCubit, required this.makeGroupsListCubit});
  final UpdateCubit updateCubit;
+   final MakeGroupsListCubit makeGroupsListCubit;
 
-  @override
+
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -17,13 +20,13 @@ class GroupFromWidget extends StatelessWidget{
             child: Container(
               child:  Padding(
                 padding:  const EdgeInsets.symmetric(horizontal: 16),
-                child:  _GroupNameWidget(updateCubit: updateCubit),
+                child:  _GroupNameWidget(updateCubit: updateCubit, makeGroupsListCubit: makeGroupsListCubit),
               ),
             ),
         ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          updateCubit.saveGroup(context);
+          updateCubit.saveGroup(context, makeGroupsListCubit);
         },
         child: Icon(Icons.done),
       ),
@@ -34,10 +37,12 @@ class GroupFromWidget extends StatelessWidget{
 
 
 class _GroupNameWidget extends StatelessWidget{
-   _GroupNameWidget({required this.updateCubit});
+   _GroupNameWidget({required this.updateCubit, required this.makeGroupsListCubit});
    final UpdateCubit updateCubit;
+   final MakeGroupsListCubit makeGroupsListCubit;
 
-  @override
+
+   @override
   Widget build(BuildContext context) {
     return  Column(
       children: [
@@ -48,7 +53,7 @@ class _GroupNameWidget extends StatelessWidget{
             hintText: 'Имя группы',
           ),
           onEditingComplete: (){
-            updateCubit.saveGroup(context);
+            updateCubit.saveGroup(context, makeGroupsListCubit);
           },
           onChanged: (value){
             updateCubit.groupName = value;

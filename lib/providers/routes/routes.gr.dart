@@ -16,6 +16,7 @@ import 'package:auto_route/empty_router_widgets.dart' as _i2;
 import 'package:flutter/material.dart' as _i8;
 
 import '../../presentation/cubit/cubit.dart' as _i9;
+import '../../presentation/cubit/makeGroupsListCubit.dart' as _i11;
 import '../../presentation/cubit/tasksUpdateCubit.dart' as _i10;
 import '../../widgets/app/my_app.dart' as _i1;
 import '../../widgets/group_form/group_form_widget.dart' as _i6;
@@ -73,7 +74,10 @@ class AppRouter extends _i7.RootStackRouter {
       final args = routeData.argsAs<GroupFormWidgetRouterArgs>();
       return _i7.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: _i6.GroupFromWidget(updateCubit: args.updateCubit),
+        child: _i6.GroupFromWidget(
+          updateCubit: args.updateCubit,
+          makeGroupsListCubit: args.makeGroupsListCubit,
+        ),
       );
     },
   };
@@ -236,23 +240,33 @@ class TaskFormWidgetRouterArgs {
 /// [_i6.GroupFromWidget]
 class GroupFormWidgetRouter
     extends _i7.PageRouteInfo<GroupFormWidgetRouterArgs> {
-  GroupFormWidgetRouter({required _i9.UpdateCubit updateCubit})
-      : super(
+  GroupFormWidgetRouter({
+    required _i9.UpdateCubit updateCubit,
+    required _i11.MakeGroupsListCubit makeGroupsListCubit,
+  }) : super(
           GroupFormWidgetRouter.name,
           path: 'GroupForm',
-          args: GroupFormWidgetRouterArgs(updateCubit: updateCubit),
+          args: GroupFormWidgetRouterArgs(
+            updateCubit: updateCubit,
+            makeGroupsListCubit: makeGroupsListCubit,
+          ),
         );
 
   static const String name = 'GroupFormWidgetRouter';
 }
 
 class GroupFormWidgetRouterArgs {
-  const GroupFormWidgetRouterArgs({required this.updateCubit});
+  const GroupFormWidgetRouterArgs({
+    required this.updateCubit,
+    required this.makeGroupsListCubit,
+  });
 
   final _i9.UpdateCubit updateCubit;
 
+  final _i11.MakeGroupsListCubit makeGroupsListCubit;
+
   @override
   String toString() {
-    return 'GroupFormWidgetRouterArgs{updateCubit: $updateCubit}';
+    return 'GroupFormWidgetRouterArgs{updateCubit: $updateCubit, makeGroupsListCubit: $makeGroupsListCubit}';
   }
 }

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:todo_list/presentation/cubit/makeGroupsListCubit.dart';
 import 'package:todo_list/presentation/cubit/tasksUpdateCubit.dart';
 
 import '../../domain/entity/group.dart';
@@ -27,7 +28,7 @@ class UpdateCubit extends Cubit<List<Group>>{
   }
 
 
-  void saveGroup(BuildContext context) async{
+  void saveGroup(BuildContext context, MakeGroupsListCubit makeGroupsListCubit) async{
       if(groupName.isEmpty) return;
       if(!Hive.isAdapterRegistered(1)){
         Hive.registerAdapter(GroupAdapter());
@@ -36,6 +37,7 @@ class UpdateCubit extends Cubit<List<Group>>{
       final group = Group(name: groupName);
       await box.add(group);
       emit(box.values.toList());
+      makeGroupsListCubit.makeList(); // паньше не было
       navigateBack(context);
   }
 
@@ -45,6 +47,15 @@ class UpdateCubit extends Cubit<List<Group>>{
     }
     final box = await Hive.openBox<Group>('groups_box');
     await box.deleteAt(index);
+    emit(box.values.toList());
+  }
+
+  void renameGroup(int index) async{
+    if(!Hive.isAdapterRegistered(1)){
+      Hive.registerAdapter(GroupAdapter());
+    }
+    final box = await Hive.openBox<Group>('groups_box');
+  //  await box.getAt(index).name
     emit(box.values.toList());
   }
 

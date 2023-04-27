@@ -95,7 +95,6 @@ class _TaskListWidgetState extends State<TaskListWidget> {
             );
           },
           );
-
   }
 }
 
@@ -123,6 +122,7 @@ class TaskListRowWidget extends StatelessWidget{
           bloc: tasksUpdateCubit,
           builder: (context, state) {
             return ListTile(
+              leading: Text('#$index'),
               title:  Text((state[index] as Task).text),
               trailing: Checkbox(
                 value: ((state[index] as Task).isDone),
