@@ -26,7 +26,7 @@ class GroupFromWidget extends StatelessWidget{
         ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          updateCubit.saveGroup(context, makeGroupsListCubit);
+          updateCubit.saveGroup(context, makeGroupsListCubit, updateCubit);
         },
         child: Icon(Icons.done),
       ),
@@ -53,7 +53,7 @@ class _GroupNameWidget extends StatelessWidget{
             hintText: 'Имя группы',
           ),
           onEditingComplete: (){
-            updateCubit.saveGroup(context, makeGroupsListCubit);
+            updateCubit.saveGroup(context, makeGroupsListCubit,updateCubit );
           },
           onChanged: (value){
             updateCubit.groupName = value;

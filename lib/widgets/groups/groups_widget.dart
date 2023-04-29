@@ -55,7 +55,7 @@ class _GroupListWidgetState extends State<_GroupListWidget> {
   @override
   void initState() {
     initFirstState();
-    widget.makeGroupsListCubit.makeList();
+    widget.makeGroupsListCubit.makeList(widget.updateCubit);
     super.initState();
   }
 
@@ -94,7 +94,6 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
  final TextEditingController controller = TextEditingController();
 
  bool isReadOnly = true;
- //void updateState(){setState(() {});}
 
  void changeBoolean(){
    setState(() {
@@ -103,12 +102,9 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
  }
 
 @override
-  void initState() {
+  void initState() {// не выполняется повторно после обновления state в вышестоящем кубите
    controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
-   print(widget.makeGroupsListCubit.groups[widget.index].name);
-   print(widget.index);
-   print('dfdfdfdfdfdfdfdf');
-
+print('ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ');
    super.initState();
   }
 
@@ -124,7 +120,7 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
             color: Colors.redAccent,
             icon: Icons.delete,
             onTap: (){
-              widget.updateCubit.deleteGroup(widget.index, widget.makeGroupsListCubit);
+              widget.updateCubit.deleteGroup(widget.index, widget.makeGroupsListCubit, widget.updateCubit);
             },
           ),
         ],
@@ -139,7 +135,7 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
                     decoration: const InputDecoration(border: InputBorder.none),
                   controller: controller,
                   onEditingComplete: (){
-                    widget.makeGroupsListCubit.renameGroup(widget.index, controller.text);
+                    widget.makeGroupsListCubit.renameGroup(widget.index, controller.text, widget.makeGroupsListCubit, widget.updateCubit);
                     changeBoolean();
                   },
                 ),

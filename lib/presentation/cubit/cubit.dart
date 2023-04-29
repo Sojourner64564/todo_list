@@ -28,7 +28,7 @@ class UpdateCubit extends Cubit<List>{
   }
 
 
-  void saveGroup(BuildContext context, MakeGroupsListCubit makeGroupsListCubit) async{
+  void saveGroup(BuildContext context, MakeGroupsListCubit makeGroupsListCubit, UpdateCubit updateCubit) async{
       if(groupName.isEmpty) return;
       if(!Hive.isAdapterRegistered(1)){
         Hive.registerAdapter(GroupAdapter());
@@ -37,19 +37,22 @@ class UpdateCubit extends Cubit<List>{
       final group = Group(name: groupName);
       await box.add(group);
       emit(box.values.toList());
-      makeGroupsListCubit.makeList(); // раньше не было
+      makeGroupsListCubit.makeList(updateCubit); // раньше не было
       navigateBack(context);
   }
 
-  void deleteGroup(int index, MakeGroupsListCubit makeGroupsListCubit) async{
+  void deleteGroup(int index, MakeGroupsListCubit makeGroupsListCubit, UpdateCubit updateCubit) async{
     if(!Hive.isAdapterRegistered(1)){
       Hive.registerAdapter(GroupAdapter());
     }
     final box = await Hive.openBox<Group>('groups_box');
     await box.deleteAt(index);
-    makeGroupsListCubit.makeList(); // раньше не было
-
+   // updateCubit.initFirstState();
     emit(box.values.toList());
+
+
+   // makeGroupsListCubit.makeList(updateCubit); // раньше не было
+
   }
 
   void showFirstTask(int index) async{
