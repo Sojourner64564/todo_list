@@ -86,44 +86,23 @@ class _GroupListRowWidget extends StatefulWidget{
  final UpdateCubit updateCubit;
  final TasksUpdateCubit tasksUpdateCubit;
  final MakeGroupsListCubit makeGroupsListCubit;
+ bool isReadOnly = true;
+ final TextEditingController controller = TextEditingController();
 
   @override
   State<_GroupListRowWidget> createState() => _GroupListRowWidgetState();
 }
 
 class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
- final TextEditingController controller = TextEditingController();
-
- bool isReadOnly = true;
-
- void changeBoolean(){
+  void changeBoolean(){
    setState(() {
-     isReadOnly = !isReadOnly;
+     widget.isReadOnly = !widget.isReadOnly;
    });
  }
 
  void cringe(){
- controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
-   print('didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA ');
-
+   widget.controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
  }
-
- @override
- void didChangeDependencies() {
-  // controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
-   //print('didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA ');
-
- }
-
-@override
-  void initState() {// не выполняется повторно после обновления state в вышестоящем кубите
-  // controller.text = widget.updateCubit.groups[widget.index].name;
-   //widget.updateCubit.updateNames(controller);
-   //   controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
-  // print('ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ');
-   super.initState();
-  }
-
 
 
  @override
@@ -148,23 +127,23 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
                 leading: Text('#${widget.index}'),
                // subtitle: Text(widget.tasksUpdateCubit.),
                 title:  TextField(
-                  readOnly: isReadOnly,
+                  readOnly: widget.isReadOnly,
                     decoration: const InputDecoration(border: InputBorder.none),
-                  controller: controller,
+                  controller: widget.controller,
                   onEditingComplete: (){
-                    widget.makeGroupsListCubit.renameGroup(widget.index, controller.text, widget.makeGroupsListCubit, widget.updateCubit);
-                    //widget.makeGroupsListCubit.renameGroup(widget.index, controller.text, widget.makeGroupsListCubit, widget.updateCubit);
+                    widget.makeGroupsListCubit.renameGroup(widget.index, widget.controller.text, widget.makeGroupsListCubit, widget.updateCubit);
                     changeBoolean();
                   },
-                ),
-                //-------------------- Text((state[index] as Group).name),
+                ), //-------------------- Text((state[index] as Group).name),
                 trailing: SizedBox(
                   width: 102,
                   child: Row(
                     children: [
                       const Text('Редактирование',
                       style: TextStyle(fontSize: 9,
-                      color: Colors.grey,),),
+                      color: Colors.grey,)
+                        ,
+                      ),
                       const Icon(Icons.chevron_right),
                     ],
                   ),

@@ -59,39 +59,6 @@ class UpdateCubit extends Cubit<List>{
 
   }
 
- /* void makeList(UpdateCubit updateCubit) async {
-    if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(GroupAdapter());
-    }
-    final box = await Hive.openBox<Group>('groups_box');
-    groups = box.values.toList(); //:TODO------------------
-    updateCubit.initFirstState();
-  }*/
-
-
- /* void renameGroup(int index , String textFromCon, MakeGroupsListCubit makeGroupsListCubit, UpdateCubit updateCubit) async{
-    if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(GroupAdapter());
-    }
-    if (!Hive.isAdapterRegistered(2)) {
-      Hive.registerAdapter(TaskAdapter());
-    }
-    final groupBox = await Hive.openBox<Group>('groups_box');
-    final taskBox = await Hive.openBox<Task>('tasks_box');
-
-    final group = groupBox.getAt(index);
-    group?.name = textFromCon;
-    group?.save();
-    makeGroupsListCubit.makeList(updateCubit); // раньше не было
-
-
-    //emit(groupBox.values.toList());
-  }*/
-
-  void updateNames(TextEditingController controller, ){
-
-  }
-
 
 
   void showTasksWidget(BuildContext context, int groupIndex, UpdateCubit updateCubit, TasksUpdateCubit tasksUpdateCubit) async{

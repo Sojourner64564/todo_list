@@ -12,7 +12,6 @@ import '../../providers/routes/routes.gr.dart';
 class MakeGroupsListCubit extends Cubit<List<Group>>{
   MakeGroupsListCubit() : super([]);
   var groups = <Group>[];
- // var index = 0;
 
 
 
@@ -23,9 +22,6 @@ class MakeGroupsListCubit extends Cubit<List<Group>>{
     final box = await Hive.openBox<Group>('groups_box');
     groups = box.values.toList(); //:TODO------------------
     updateCubit.initFirstState();
-
-
-    //emit(box.values.toList());
   }
 
 
@@ -44,9 +40,6 @@ class MakeGroupsListCubit extends Cubit<List<Group>>{
     group?.name = textFromCon;
     group?.save();
     makeGroupsListCubit.makeList(updateCubit); // раньше не было
-
-
-     //emit(groupBox.values.toList());
   }
 
 

@@ -90,7 +90,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                 return TaskListRowWidget(index: index, tasksUpdateCubit: widget.tasksUpdateCubit);
               },
               separatorBuilder: (BuildContext context, int index){
-                return const Divider(height: 3);
+                return const Divider(height: 3, color: Colors.black87,);
               },
             );
           },
