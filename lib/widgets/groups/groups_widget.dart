@@ -108,8 +108,9 @@ class _GroupListRowWidget extends StatefulWidget {
 class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
   bool isReadOnly = false;
   final TextEditingController controller = TextEditingController();
-
-
+  final grey = Colors.grey;
+  final white = Colors.white;
+  var colorOfText = Colors.white;
 
 
   void changeBoolean() {
@@ -118,13 +119,13 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
     });
   }
 
-  void cringe() {
+  void updateNames() {
     controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
   }
 
   @override
   void initState() {
-    cringe();
+    updateNames();
     super.initState();
   }
 
@@ -151,8 +152,8 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
               title: BlocConsumer<MakeGroupsListCubit, List>(
                     bloc: widget.makeGroupsListCubit,
                     listener: (context, state){
-                      if(state != state){cringe();}
-                      if(state == state){cringe();}
+                      if(state != state){updateNames();}
+                      if(state == state){updateNames();}
                     },
                     builder: (context, state){
                       return  TextField(
@@ -163,9 +164,9 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
                           widget.makeGroupsListCubit.renameGroup(
                               widget.index,
                               controller.text,
-                              widget.makeGroupsListCubit,
-                              widget.updateCubit);
+                              widget.makeGroupsListCubit,);
                           changeBoolean();
+                          colorOfText = white;
                         },
                       );
                     },
@@ -174,11 +175,11 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
                 width: 102,
                 child: Row(
                   children: [
-                    const Text(
+                     Text(
                       'Редактирование',
                       style: TextStyle(
                         fontSize: 9,
-                        color: Colors.grey,
+                        color: colorOfText,
                       ),
                     ),
                     const Icon(Icons.chevron_right),
@@ -194,6 +195,7 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
               },
               onLongPress: () {
                 changeBoolean();
+                colorOfText = grey;
               },
             );
           }),
