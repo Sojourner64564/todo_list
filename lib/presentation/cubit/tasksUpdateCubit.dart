@@ -29,6 +29,7 @@ class TasksUpdateCubit extends Cubit<List<Task>>{
     final group = groupBox.get(groupKey);
     tasks = group?.tasks ?? <Task>[];
     emit(tasks.toList());
+    print('initFirstStateinitFirstStateinitFirstStateinitFirstStateinitFirstStateinitFirstState');
   }
 
   void saveTask(BuildContext context) async{

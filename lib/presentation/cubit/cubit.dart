@@ -55,6 +55,11 @@ class UpdateCubit extends Cubit<List>{
     emit(box.values.toList());
   }
 
+  Future<int> specialForKey(int groupIndex) async{
+    final box = await Hive.openBox<Group>('groups_box');
+    final groupKey = box.keyAt(groupIndex) as int;
+    return groupKey;
+  }
 
 
   void showTasksWidget(BuildContext context, int groupIndex, UpdateCubit updateCubit, TasksUpdateCubit tasksUpdateCubit) async{

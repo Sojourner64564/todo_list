@@ -4,6 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:todo_list/domain/entity/group.dart';
 
+import '../../domain/entity/task.dart';
 import '../../presentation/cubit/cubit.dart';
 import '../../presentation/cubit/makeGroupsListCubit.dart';
 import '../../presentation/cubit/tasksUpdateCubit.dart';
@@ -125,6 +126,11 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
 
   @override
   void initState() {
+    //widget.tasksUpdateCubit.groupKey = widget.index+1;
+    //final int = when.
+    //widget.tasksUpdateCubit.groupKey = widget.updateCubit.specialForKey(widget.index) as int;
+
+    widget.tasksUpdateCubit.initFirstState();
     updateNames();
     super.initState();
   }
@@ -149,11 +155,17 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
           builder: (context, state) {
             return ListTile(
               leading: Text('#${widget.index}'),
+              subtitle: BlocConsumer<TasksUpdateCubit, List>(
+                bloc: widget.tasksUpdateCubit,
+                listener: (context, state){},
+                builder: (context, state){
+                  //return Text((state[0] as Task).text);
+                  //return Text(' -  ghghgh'); //:TODO--------------------------------------------
+                },
+              ),
               title: BlocConsumer<MakeGroupsListCubit, List>(
                     bloc: widget.makeGroupsListCubit,
                     listener: (context, state){
-                      //if(state != state){updateNames();}
-                      //if(state == state){updateNames();}
                       updateNames();
                     },
                     builder: (context, state){
