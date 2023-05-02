@@ -53,10 +53,6 @@ class UpdateCubit extends Cubit<List>{
     await box.deleteAt(index);
     makeGroupsListCubit.makeList(updateCubit);
     emit(box.values.toList());
-
-
-   // makeGroupsListCubit.makeList(updateCubit); // раньше не было
-
   }
 
 
@@ -64,8 +60,6 @@ class UpdateCubit extends Cubit<List>{
   void showTasksWidget(BuildContext context, int groupIndex, UpdateCubit updateCubit, TasksUpdateCubit tasksUpdateCubit) async{
     final box = await Hive.openBox<Group>('groups_box');
     final groupKey = box.keyAt(groupIndex) as int;
-//    final group = box.get(groupKey);
-
      context.router.push(TasksWidgetRouter(updateCubit: updateCubit, groupKey: groupKey, tasksUpdateCubit: tasksUpdateCubit, index: groupIndex));
 
    }

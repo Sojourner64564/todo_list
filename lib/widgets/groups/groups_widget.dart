@@ -56,7 +56,6 @@ class _GroupListWidgetState extends State<_GroupListWidget> {
   void initState() {
     initFirstState();
     widget.makeGroupsListCubit.makeList(widget.updateCubit);
-    //    widget.makeGroupsListCubit.makeList(widget.updateCubit);
     super.initState();
   }
 
@@ -134,7 +133,8 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
                     widget.makeGroupsListCubit.renameGroup(widget.index, widget.controller.text, widget.makeGroupsListCubit, widget.updateCubit);
                     changeBoolean();
                   },
-                ), //-------------------- Text((state[index] as Group).name),
+                ),
+
                 trailing: SizedBox(
                   width: 102,
                   child: Row(
