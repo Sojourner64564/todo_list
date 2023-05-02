@@ -9,12 +9,10 @@ import '../../presentation/cubit/makeGroupsListCubit.dart';
 import '../../presentation/cubit/tasksUpdateCubit.dart';
 import '../../providers/routes/routes.gr.dart';
 
-class GroupsWidget extends StatelessWidget{
-  final  UpdateCubit updateCubit = UpdateCubit();
+class GroupsWidget extends StatelessWidget {
+  final UpdateCubit updateCubit = UpdateCubit();
   final TasksUpdateCubit tasksUpdateCubit = TasksUpdateCubit();
   final MakeGroupsListCubit makeGroupsListCubit = MakeGroupsListCubit();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +20,17 @@ class GroupsWidget extends StatelessWidget{
       appBar: AppBar(
         title: const Text('Группы заметок'),
       ),
-      body:  SafeArea(
-          child: _GroupListWidget(updateCubit: updateCubit, tasksUpdateCubit:tasksUpdateCubit, makeGroupsListCubit: makeGroupsListCubit, )
-      ),
+      body: SafeArea(
+          child: _GroupListWidget(
+        updateCubit: updateCubit,
+        tasksUpdateCubit: tasksUpdateCubit,
+        makeGroupsListCubit: makeGroupsListCubit,
+      )),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          context.router.push(GroupFormWidgetRouter(updateCubit: updateCubit, makeGroupsListCubit:makeGroupsListCubit));
+        onPressed: () {
+          context.router.push(GroupFormWidgetRouter(
+              updateCubit: updateCubit,
+              makeGroupsListCubit: makeGroupsListCubit));
         },
         child: const Icon(Icons.add),
       ),
@@ -35,27 +38,28 @@ class GroupsWidget extends StatelessWidget{
   }
 }
 
-
-class _GroupListWidget extends StatefulWidget{
-   _GroupListWidget({required this.updateCubit, required this.tasksUpdateCubit, required this.makeGroupsListCubit});
+class _GroupListWidget extends StatefulWidget {
+  _GroupListWidget(
+      {required this.updateCubit,
+      required this.tasksUpdateCubit,
+      required this.makeGroupsListCubit});
   final UpdateCubit updateCubit;
   final TasksUpdateCubit tasksUpdateCubit;
-   final MakeGroupsListCubit makeGroupsListCubit;
+  final MakeGroupsListCubit makeGroupsListCubit;
 
   @override
   State<_GroupListWidget> createState() => _GroupListWidgetState();
 }
 
 class _GroupListWidgetState extends State<_GroupListWidget> {
-
-  void initFirstState(){
+  void initFirstState() {
     widget.updateCubit.initFirstState();
   }
 
   @override
   void initState() {
     initFirstState();
-    widget.makeGroupsListCubit.makeList(widget.updateCubit);
+    widget.makeGroupsListCubit.makeList();
     super.initState();
   }
 
@@ -66,97 +70,150 @@ class _GroupListWidgetState extends State<_GroupListWidget> {
         builder: (context, state) {
           return ListView.separated(
             itemCount: state.length,
-            itemBuilder: (BuildContext context, int index){
-              return  _GroupListRowWidget(index: index, updateCubit: widget.updateCubit, tasksUpdateCubit: widget.tasksUpdateCubit, makeGroupsListCubit: widget.makeGroupsListCubit,);
+            itemBuilder: (BuildContext context, int index) {
+              return _GroupListRowWidget(
+                index: index,
+                updateCubit: widget.updateCubit,
+                tasksUpdateCubit: widget.tasksUpdateCubit,
+                makeGroupsListCubit: widget.makeGroupsListCubit,
+              );
             },
-            separatorBuilder: (BuildContext context, int index){
-              return const Divider(height: 3, color: Colors.black54, indent: 15,);
+            separatorBuilder: (BuildContext context, int index) {
+              return const Divider(
+                height: 3,
+                color: Colors.black54,
+                indent: 15,
+              );
             },
           );
-        }
-    );
+        });
   }
 }
 
-
-class _GroupListRowWidget extends StatefulWidget{
-  _GroupListRowWidget({required this.index, required this.updateCubit, required this.tasksUpdateCubit, required this.makeGroupsListCubit});
- final int index;
- final UpdateCubit updateCubit;
- final TasksUpdateCubit tasksUpdateCubit;
- final MakeGroupsListCubit makeGroupsListCubit;
- bool isReadOnly = true;
- final TextEditingController controller = TextEditingController();
+class _GroupListRowWidget extends StatefulWidget {
+  _GroupListRowWidget(
+      {required this.index,
+      required this.updateCubit,
+      required this.tasksUpdateCubit,
+      required this.makeGroupsListCubit});
+  final int index;
+  final UpdateCubit updateCubit;
+  final TasksUpdateCubit tasksUpdateCubit;
+  final MakeGroupsListCubit makeGroupsListCubit;
+  bool isReadOnly = true;
+  final TextEditingController controller = TextEditingController();
 
   @override
   State<_GroupListRowWidget> createState() => _GroupListRowWidgetState();
 }
 
 class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
-  void changeBoolean(){
-   setState(() {
-     widget.isReadOnly = !widget.isReadOnly;
-   });
- }
+  void changeBoolean() {
+    setState(() {
+      widget.isReadOnly = !widget.isReadOnly;
+    });
+  }
 
- void cringe(){
-   widget.controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
- }
+  void cringe() {
+    widget.controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
+  }
+
+  @override
+  void initState() {
+    cringe();
+    super.initState();
+  }
 
 
- @override
-  Widget build(BuildContext context){
-   cringe();
-      return Slidable(
-        actionPane: const SlidableDrawerActionPane(),
-        secondaryActions: [
-          IconSlideAction(
-            caption: 'Удалить',
-            color: Colors.redAccent,
-            icon: Icons.delete,
-            onTap: (){
-              widget.updateCubit.deleteGroup(widget.index, widget.makeGroupsListCubit, widget.updateCubit);
-            },
-          ),
-        ],
-        child: BlocBuilder<UpdateCubit, List>(
-            bloc: widget.updateCubit,
-            builder: (context, state) {
-              return ListTile(
-                leading: Text('#${widget.index}'),
-               // subtitle: Text(widget.tasksUpdateCubit.),
-                title:  TextField(
-                  readOnly: widget.isReadOnly,
-                    decoration: const InputDecoration(border: InputBorder.none),
-                  controller: widget.controller,
-                  onEditingComplete: (){
-                    widget.makeGroupsListCubit.renameGroup(widget.index, widget.controller.text, widget.makeGroupsListCubit, widget.updateCubit);
-                    changeBoolean();
-                  },
-                ),
-
-                trailing: SizedBox(
-                  width: 102,
-                  child: Row(
-                    children: [
-                      const Text('Редактирование',
-                      style: TextStyle(fontSize: 9,
-                      color: Colors.grey,)
-                        ,
-                      ),
-                      const Icon(Icons.chevron_right),
-                    ],
-                  ),
-                ),
-                onTap: (){
-                  widget.updateCubit.showTasksWidget(context, widget.index, widget.updateCubit, widget.tasksUpdateCubit); //TODO: voennoe prestuplenie
-                },
-                onLongPress: (){
-                 changeBoolean();
-                },
-              );
-            }
+  @override
+  Widget build(BuildContext context) {
+    return Slidable(
+      actionPane: const SlidableDrawerActionPane(),
+      secondaryActions: [
+        IconSlideAction(
+          caption: 'Удалить',
+          color: Colors.redAccent,
+          icon: Icons.delete,
+          onTap: () {
+            widget.updateCubit.deleteGroup(widget.index, widget.makeGroupsListCubit, widget.updateCubit);
+          },
         ),
-      );
+      ],
+      child: BlocBuilder<UpdateCubit, List>(
+          bloc: widget.updateCubit,
+          builder: (context, state) {
+            //cringe();
+            return ListTile(
+              leading: Text('#${widget.index}'),
+              title:
+                  BlocConsumer<MakeGroupsListCubit, List>(
+                    bloc: widget.makeGroupsListCubit,
+                    listener: (context, state){
+                      //if(state != state){
+                      //  cringe();
+                      //}
+                      //if(state == state){
+                       // cringe();
+                      //}
+                    } ,
+                    builder: (context, state){
+                      return  TextField(
+                        enabled: widget.isReadOnly,
+                        decoration: const InputDecoration(border: InputBorder.none),
+                        controller: widget.controller,
+                        onEditingComplete: () {
+                          widget.makeGroupsListCubit.renameGroup(
+                              widget.index,
+                              widget.controller.text,
+                              widget.makeGroupsListCubit,
+                              widget.updateCubit);
+                          changeBoolean();
+                        },
+                      );
+                    },
+                  ),
+
+            /*  TextField(
+                    readOnly: widget.isReadOnly,
+                    decoration: const InputDecoration(border: InputBorder.none),
+                    controller: widget.controller,
+                    onEditingComplete: () {
+                      widget.makeGroupsListCubit.renameGroup(
+                          widget.index,
+                          widget.controller.text,
+                          widget.makeGroupsListCubit,
+                          widget.updateCubit);
+                      changeBoolean();
+                    },
+              ),*/
+
+              trailing: SizedBox(
+                width: 102,
+                child: Row(
+                  children: [
+                    const Text(
+                      'Редактирование',
+                      style: TextStyle(
+                        fontSize: 9,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const Icon(Icons.chevron_right),
+                  ],
+                ),
+              ),
+              onTap: () {
+                widget.updateCubit.showTasksWidget(
+                    context,
+                    widget.index,
+                    widget.updateCubit,
+                    widget.tasksUpdateCubit); //TODO: voennoe prestuplenie
+              },
+              onLongPress: () {
+                changeBoolean();
+              },
+            );
+          }),
+    );
   }
 }

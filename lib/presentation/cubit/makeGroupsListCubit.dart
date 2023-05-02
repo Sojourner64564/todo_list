@@ -15,13 +15,13 @@ class MakeGroupsListCubit extends Cubit<List<Group>>{
 
 
 
-  void makeList(UpdateCubit updateCubit) async{
+  void makeList() async{
     if(!Hive.isAdapterRegistered(1)){
       Hive.registerAdapter(GroupAdapter());
     }
     final box = await Hive.openBox<Group>('groups_box');
     groups = box.values.toList(); //:TODO------------------
-    updateCubit.initFirstState();
+    //emit(groups.toList());
   }
 
 
@@ -39,7 +39,7 @@ class MakeGroupsListCubit extends Cubit<List<Group>>{
     final group = groupBox.getAt(index);
     group?.name = textFromCon;
     group?.save();
-    makeGroupsListCubit.makeList(updateCubit); // раньше не было
+    makeList();
   }
 
 

@@ -41,7 +41,7 @@ class UpdateCubit extends Cubit<List>{
       final group = Group(name: groupName);
       await box.add(group);
       emit(box.values.toList());
-      makeGroupsListCubit.makeList(updateCubit); // раньше не было
+      makeGroupsListCubit.makeList(); // раньше не было
       navigateBack(context);
   }
 
@@ -51,7 +51,7 @@ class UpdateCubit extends Cubit<List>{
     }
     final box = await Hive.openBox<Group>('groups_box');
     await box.deleteAt(index);
-    makeGroupsListCubit.makeList(updateCubit);
+    makeGroupsListCubit.makeList();
     emit(box.values.toList());
   }
 
@@ -61,7 +61,6 @@ class UpdateCubit extends Cubit<List>{
     final box = await Hive.openBox<Group>('groups_box');
     final groupKey = box.keyAt(groupIndex) as int;
      context.router.push(TasksWidgetRouter(updateCubit: updateCubit, groupKey: groupKey, tasksUpdateCubit: tasksUpdateCubit, index: groupIndex));
-
    }
 
 }
