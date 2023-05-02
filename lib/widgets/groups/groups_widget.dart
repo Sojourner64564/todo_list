@@ -56,6 +56,7 @@ class _GroupListWidgetState extends State<_GroupListWidget> {
   void initState() {
     initFirstState();
     widget.makeGroupsListCubit.makeList(widget.updateCubit);
+    //    widget.makeGroupsListCubit.makeList(widget.updateCubit);
     super.initState();
   }
 
@@ -101,17 +102,33 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
    });
  }
 
+ void cringe(){
+ controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
+   print('didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA ');
+
+ }
+
+ @override
+ void didChangeDependencies() {
+  // controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
+   //print('didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA didChangeDependencies OAOAOOA ');
+
+ }
+
 @override
   void initState() {// не выполняется повторно после обновления state в вышестоящем кубите
-   controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
-print('ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ');
+  // controller.text = widget.updateCubit.groups[widget.index].name;
+   //widget.updateCubit.updateNames(controller);
+   //   controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
+  // print('ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupListRowWidget ');
    super.initState();
   }
 
 
 
  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+   cringe();
       return Slidable(
         actionPane: const SlidableDrawerActionPane(),
         secondaryActions: [
@@ -136,6 +153,7 @@ print('ПЕРЕСТРОЙКА _GroupListRowWidget ПЕРЕСТРОЙКА _GroupL
                   controller: controller,
                   onEditingComplete: (){
                     widget.makeGroupsListCubit.renameGroup(widget.index, controller.text, widget.makeGroupsListCubit, widget.updateCubit);
+                    //widget.makeGroupsListCubit.renameGroup(widget.index, controller.text, widget.makeGroupsListCubit, widget.updateCubit);
                     changeBoolean();
                   },
                 ),

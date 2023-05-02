@@ -13,6 +13,10 @@ class UpdateCubit extends Cubit<List>{
   UpdateCubit() : super([]);
   var groupName = '';
   var tasks = <Task>[];
+  var groups = <Group>[];
+  var groupsNew = <Group>[];
+
+
 
 
   void navigateBack(BuildContext context){
@@ -47,7 +51,7 @@ class UpdateCubit extends Cubit<List>{
     }
     final box = await Hive.openBox<Group>('groups_box');
     await box.deleteAt(index);
-   // updateCubit.initFirstState();
+    makeGroupsListCubit.makeList(updateCubit);
     emit(box.values.toList());
 
 
@@ -55,13 +59,42 @@ class UpdateCubit extends Cubit<List>{
 
   }
 
-  void showFirstTask(int index) async{
+ /* void makeList(UpdateCubit updateCubit) async {
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(GroupAdapter());
+    }
+    final box = await Hive.openBox<Group>('groups_box');
+    groups = box.values.toList(); //:TODO------------------
+    updateCubit.initFirstState();
+  }*/
+
+
+ /* void renameGroup(int index , String textFromCon, MakeGroupsListCubit makeGroupsListCubit, UpdateCubit updateCubit) async{
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(GroupAdapter());
+    }
+    if (!Hive.isAdapterRegistered(2)) {
+      Hive.registerAdapter(TaskAdapter());
+    }
+    final groupBox = await Hive.openBox<Group>('groups_box');
+    final taskBox = await Hive.openBox<Task>('tasks_box');
+
+    final group = groupBox.getAt(index);
+    group?.name = textFromCon;
+    group?.save();
+    makeGroupsListCubit.makeList(updateCubit); // раньше не было
+
+
+    //emit(groupBox.values.toList());
+  }*/
+
+  void updateNames(TextEditingController controller, ){
 
   }
 
 
 
-   void showTasksWidget(BuildContext context, int groupIndex, UpdateCubit updateCubit, TasksUpdateCubit tasksUpdateCubit) async{
+  void showTasksWidget(BuildContext context, int groupIndex, UpdateCubit updateCubit, TasksUpdateCubit tasksUpdateCubit) async{
     final box = await Hive.openBox<Group>('groups_box');
     final groupKey = box.keyAt(groupIndex) as int;
 //    final group = box.get(groupKey);
