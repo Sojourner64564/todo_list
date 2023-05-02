@@ -152,8 +152,9 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
               title: BlocConsumer<MakeGroupsListCubit, List>(
                     bloc: widget.makeGroupsListCubit,
                     listener: (context, state){
-                      if(state != state){updateNames();}
-                      if(state == state){updateNames();}
+                      //if(state != state){updateNames();}
+                      //if(state == state){updateNames();}
+                      updateNames();
                     },
                     builder: (context, state){
                       return  TextField(
