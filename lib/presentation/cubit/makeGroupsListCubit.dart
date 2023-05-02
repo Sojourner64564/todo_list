@@ -21,7 +21,8 @@ class MakeGroupsListCubit extends Cubit<List<Group>>{
     }
     final box = await Hive.openBox<Group>('groups_box');
     groups = box.values.toList(); //:TODO------------------
-    //emit(groups.toList());
+    print('MAKELIST MAKELIST MAKELIST MAKELIST MAKELIST MAKELIST MAKELIST MAKELIST MAKELIST MAKELIST MAKELIST MAKELIST ');
+    emit(groups.toList());
   }
 
 
@@ -39,7 +40,7 @@ class MakeGroupsListCubit extends Cubit<List<Group>>{
     final group = groupBox.getAt(index);
     group?.name = textFromCon;
     group?.save();
-    makeList();
+    makeGroupsListCubit.makeList();
   }
 
 

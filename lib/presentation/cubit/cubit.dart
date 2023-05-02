@@ -13,8 +13,8 @@ class UpdateCubit extends Cubit<List>{
   UpdateCubit() : super([]);
   var groupName = '';
   var tasks = <Task>[];
-  var groups = <Group>[];
-  var groupsNew = <Group>[];
+  //var groups = <Group>[];
+ // var groupsNew = <Group>[];
 
 
 

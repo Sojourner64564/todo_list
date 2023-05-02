@@ -100,22 +100,26 @@ class _GroupListRowWidget extends StatefulWidget {
   final UpdateCubit updateCubit;
   final TasksUpdateCubit tasksUpdateCubit;
   final MakeGroupsListCubit makeGroupsListCubit;
-  bool isReadOnly = true;
-  final TextEditingController controller = TextEditingController();
 
   @override
   State<_GroupListRowWidget> createState() => _GroupListRowWidgetState();
 }
 
 class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
+  bool isReadOnly = false;
+  final TextEditingController controller = TextEditingController();
+
+
+
+
   void changeBoolean() {
     setState(() {
-      widget.isReadOnly = !widget.isReadOnly;
+      isReadOnly = !isReadOnly;
     });
   }
 
   void cringe() {
-    widget.controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
+    controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
   }
 
   @override
@@ -142,29 +146,23 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
       child: BlocBuilder<UpdateCubit, List>(
           bloc: widget.updateCubit,
           builder: (context, state) {
-            //cringe();
             return ListTile(
               leading: Text('#${widget.index}'),
-              title:
-                  BlocConsumer<MakeGroupsListCubit, List>(
+              title: BlocConsumer<MakeGroupsListCubit, List>(
                     bloc: widget.makeGroupsListCubit,
                     listener: (context, state){
-                      //if(state != state){
-                      //  cringe();
-                      //}
-                      //if(state == state){
-                       // cringe();
-                      //}
-                    } ,
+                      if(state != state){cringe();}
+                      if(state == state){cringe();}
+                    },
                     builder: (context, state){
                       return  TextField(
-                        enabled: widget.isReadOnly,
+                        enabled: isReadOnly,
                         decoration: const InputDecoration(border: InputBorder.none),
-                        controller: widget.controller,
+                        controller: controller,
                         onEditingComplete: () {
                           widget.makeGroupsListCubit.renameGroup(
                               widget.index,
-                              widget.controller.text,
+                              controller.text,
                               widget.makeGroupsListCubit,
                               widget.updateCubit);
                           changeBoolean();
@@ -172,21 +170,6 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
                       );
                     },
                   ),
-
-            /*  TextField(
-                    readOnly: widget.isReadOnly,
-                    decoration: const InputDecoration(border: InputBorder.none),
-                    controller: widget.controller,
-                    onEditingComplete: () {
-                      widget.makeGroupsListCubit.renameGroup(
-                          widget.index,
-                          widget.controller.text,
-                          widget.makeGroupsListCubit,
-                          widget.updateCubit);
-                      changeBoolean();
-                    },
-              ),*/
-
               trailing: SizedBox(
                 width: 102,
                 child: Row(
