@@ -26,8 +26,6 @@ class MakeGroupsListCubit extends Cubit<List<Group>>{
 
   void renameGroup(int index , String textFromCon, MakeGroupsListCubit makeGroupsListCubit) async{
     final groupBox = await BoxManager.instance.openGroupBox();
-    //final taskBox = await BoxManager.instance.openTaskBox();
-
     final group = groupBox.getAt(index);
     group?.name = textFromCon;
     group?.save();

@@ -54,13 +54,16 @@ class _GroupListWidget extends StatefulWidget {
 
 class _GroupListWidgetState extends State<_GroupListWidget> {
   void initFirstState() {
-    widget.updateCubit.initFirstState();
+    widget.updateCubit.initGroupState();
   }
+  void initTaskNames(){
+    widget.tasksUpdateCubit.initFirstState();
 
+  }
   @override
   void initState() {
+    initTaskNames();
     initFirstState();
-    widget.makeGroupsListCubit.makeList();
     super.initState();
   }
 
@@ -113,6 +116,7 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
   final white = Colors.white;
   var colorOfText = Colors.white;
 
+
   void changeBoolean() {
     setState(() {
       isReadOnly = !isReadOnly;
@@ -120,11 +124,17 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
   }
 
   void updateNames() {
-    controller.text = widget.makeGroupsListCubit.groups[widget.index].name;
+    controller.text = widget.updateCubit.groups[widget.index].name;
+  }
+
+  void initTaskNames(){
+    widget.tasksUpdateCubit.initFirstState();
+
   }
 
   @override
   void initState() {
+    initTaskNames();
     updateNames();
     super.initState();
   }
@@ -144,40 +154,37 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
           },
         ),
       ],
-      child: BlocBuilder<UpdateCubit, List>(
+      child: BlocConsumer<UpdateCubit, List>(
           bloc: widget.updateCubit,
+          listener: (context, state){
+            updateNames();
+          },
           builder: (context, state) {
             return ListTile(
               leading: Text('#${widget.index}'),
               subtitle: BlocConsumer<TasksUpdateCubit, List>(
                 bloc: widget.tasksUpdateCubit,
-                listener: (context, state){},
+                listener: (context, state){
+                  initTaskNames();
+                },
                 builder: (context, state){
-                  //return Text((state[0] as Task).text);
+                 // return Text((state as Task).text);
                   return Text(' -  ghghgh'); //:TODO--------------------------------------------
                 },
               ),
-              title: BlocConsumer<MakeGroupsListCubit, List>(
-                    bloc: widget.makeGroupsListCubit,
-                    listener: (context, state){
-                      updateNames();
-                    },
-                    builder: (context, state){
-                      return  TextField(
+              title: TextField(
                         enabled: isReadOnly,
                         decoration: const InputDecoration(border: InputBorder.none),
                         controller: controller,
                         onEditingComplete: () {
-                          widget.makeGroupsListCubit.renameGroup(
+                          widget.updateCubit.renameGroup(
                               widget.index,
                               controller.text,
                               widget.makeGroupsListCubit,);
                           changeBoolean();
                           colorOfText = white;
                         },
-                      );
-                    },
-                  ),
+                      ),
               trailing: SizedBox(
                 width: 102,
                 child: Row(
