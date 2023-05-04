@@ -1,12 +1,21 @@
-
 import 'package:hive/hive.dart';
-import 'package:todo_list/domain/entity/task.dart';
 part 'group.g.dart';
 
 @HiveType(typeId: 1)
 class Group extends HiveObject{
   Group({required this.name});
+//typeId 1
+  @HiveField(0)
+  String name;
+  }
 
+
+
+/*
+@HiveType(typeId: 1)
+class Group extends HiveObject{
+  Group({required this.name});
+//typeId 1
   @HiveField(0)
   String name;
 
@@ -18,6 +27,4 @@ class Group extends HiveObject{
     tasks?.add(task);
     save();
   }
-
-
-}
+}*/

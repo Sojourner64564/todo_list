@@ -113,7 +113,6 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
   final white = Colors.white;
   var colorOfText = Colors.white;
 
-
   void changeBoolean() {
     setState(() {
       isReadOnly = !isReadOnly;
@@ -126,11 +125,6 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
 
   @override
   void initState() {
-    //widget.tasksUpdateCubit.groupKey = widget.index+1;
-    //final int = when.
-    //widget.tasksUpdateCubit.groupKey = widget.updateCubit.specialForKey(widget.index) as int;
-
-    widget.tasksUpdateCubit.initFirstState();
     updateNames();
     super.initState();
   }
@@ -160,7 +154,7 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
                 listener: (context, state){},
                 builder: (context, state){
                   //return Text((state[0] as Task).text);
-                  //return Text(' -  ghghgh'); //:TODO--------------------------------------------
+                  return Text(' -  ghghgh'); //:TODO--------------------------------------------
                 },
               ),
               title: BlocConsumer<MakeGroupsListCubit, List>(

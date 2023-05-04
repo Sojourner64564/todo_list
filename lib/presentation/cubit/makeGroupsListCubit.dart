@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:todo_list/presentation/cubit/cubit.dart';
 import 'package:todo_list/presentation/cubit/tasksUpdateCubit.dart';
 
+import '../../domain/data_provider/box_manager.dart';
 import '../../domain/entity/group.dart';
 import '../../domain/entity/task.dart';
 import '../../providers/routes/routes.gr.dart';
@@ -16,10 +17,7 @@ class MakeGroupsListCubit extends Cubit<List<Group>>{
 
 
   void makeList() async{
-    if(!Hive.isAdapterRegistered(1)){
-      Hive.registerAdapter(GroupAdapter());
-    }
-    final box = await Hive.openBox<Group>('groups_box');
+    final box = await BoxManager.instance.openGroupBox();
     groups = box.values.toList();
     emit(groups.toList());
   }
@@ -27,14 +25,8 @@ class MakeGroupsListCubit extends Cubit<List<Group>>{
 
 
   void renameGroup(int index , String textFromCon, MakeGroupsListCubit makeGroupsListCubit) async{
-    if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(GroupAdapter());
-    }
-    if (!Hive.isAdapterRegistered(2)) {
-      Hive.registerAdapter(TaskAdapter());
-    }
-    final groupBox = await Hive.openBox<Group>('groups_box');
-    final taskBox = await Hive.openBox<Task>('tasks_box');
+    final groupBox = await BoxManager.instance.openGroupBox();
+    //final taskBox = await BoxManager.instance.openTaskBox();
 
     final group = groupBox.getAt(index);
     group?.name = textFromCon;
