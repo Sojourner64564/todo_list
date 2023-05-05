@@ -10,26 +10,36 @@ import '../../domain/entity/group.dart';
 import '../../domain/entity/task.dart';
 import '../../providers/routes/routes.gr.dart';
 
-class MakeGroupsListCubit extends Cubit<List<Group>>{
+class MakeGroupsListCubit extends Cubit<List<String>>{
   MakeGroupsListCubit() : super([]);
-  var groups = <Group>[];
+  int groupKey = 0;
+  //int groupKeyForGroupWidget = 0;
+  // int indexForGroups = 0;
+  var taskText='';
+  var tasks = <Task>[];
+  var newTasks = <Task>[];
+  int groups=0;
+//  String? firstTask;
+  var firstTasks = <String>[];
 
 
 
-  void makeList() async{
-    final box = await BoxManager.instance.openGroupBox();
-    groups = box.values.toList();
-    emit(groups.toList());
+  void getAmountOfGroups(List<Group> groupsLocal){
+    groups = groupsLocal.toList().length;
+    print('$groups ====getAmountOfGroups его сообщение=============================================================');
   }
 
-
-
-  void renameGroup(int index , String textFromCon, MakeGroupsListCubit makeGroupsListCubit) async{
+  void initInGroupsState(int index) async{
     final groupBox = await BoxManager.instance.openGroupBox();
-    final group = groupBox.getAt(index);
-    group?.name = textFromCon;
-    group?.save();
-    makeList();
+     final localGroupKey = groupBox.keyAt(index) as int;
+      final taskBox = await BoxManager.instance.openTaskBox(localGroupKey);
+      newTasks = taskBox.values.toList();
+      firstTasks.add(newTasks[0].text != null ? newTasks[0].text : 'Нету');
+      print(firstTasks.length);
+    print(firstTasks[index].toString());
+    emit(firstTasks.toList());
+
+
   }
 
 

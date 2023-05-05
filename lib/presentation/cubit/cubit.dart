@@ -84,6 +84,14 @@ class UpdateCubit extends Cubit<List>{
     context.router.pop();
   }
 
+  void initAmountOfGroup(MakeGroupsListCubit makeGroupsListCubit) async{
+    final box = await BoxManager.instance.openGroupBox();
+    groups = box.values.toList();
+    makeGroupsListCubit.getAmountOfGroups(groups);
+    //emit(box.values.toList());
+  }
+
+
   void initGroupState() async{
     final box = await BoxManager.instance.openGroupBox();
     groups = box.values.toList();

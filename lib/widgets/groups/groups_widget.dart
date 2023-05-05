@@ -54,15 +54,15 @@ class _GroupListWidget extends StatefulWidget {
 
 class _GroupListWidgetState extends State<_GroupListWidget> {
   void initFirstState() {
-    widget.updateCubit.initGroupState();
+    widget.updateCubit.initGroupState(); // новое
   }
-  void initTaskNames(){
-    widget.tasksUpdateCubit.initFirstState();
+  void initAmountOfGroup(){
+    widget.updateCubit.initAmountOfGroup(widget.makeGroupsListCubit);
+  }
 
-  }
   @override
   void initState() {
-    initTaskNames();
+    initAmountOfGroup();
     initFirstState();
     super.initState();
   }
@@ -122,19 +122,19 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
       isReadOnly = !isReadOnly;
     });
   }
-
   void updateNames() {
     controller.text = widget.updateCubit.groups[widget.index].name;
   }
 
   void initTaskNames(){
     widget.tasksUpdateCubit.initFirstState();
-
   }
+
+
 
   @override
   void initState() {
-    initTaskNames();
+    widget.makeGroupsListCubit.initInGroupsState(widget.index);
     updateNames();
     super.initState();
   }
@@ -162,15 +162,15 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
           builder: (context, state) {
             return ListTile(
               leading: Text('#${widget.index}'),
-              subtitle: BlocConsumer<TasksUpdateCubit, List>(
-                bloc: widget.tasksUpdateCubit,
-                listener: (context, state){
+              subtitle: BlocBuilder<MakeGroupsListCubit, List>(
+                bloc: widget.makeGroupsListCubit,
+                /*listener: (context, state){
                   initTaskNames();
-                },
+                },*/
                 builder: (context, state){
-                 // return Text((state as Task).text);
-                  return Text(' -  ghghgh'); //:TODO--------------------------------------------
-                },
+                   // return Text(state[widget.index]);
+                    return Text(' - Нет напоминания'); //:TODO--------------------------------------------
+               },
               ),
               title: TextField(
                         enabled: isReadOnly,
