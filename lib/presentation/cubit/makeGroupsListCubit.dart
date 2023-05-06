@@ -21,8 +21,8 @@ class MakeGroupsListCubit extends Cubit<List<String>>{
   int groups=0;
 //  String? firstTask;
   var firstTasks = <String>['загрузка...','загрузка...','загрузка...','загрузка...','загрузка...'];
-
-
+final emptyList = <Task>[];
+String myString = 'huilo';
 
   void getAmountOfGroups(List<Group> groupsLocal){
     groups = groupsLocal.toList().length;
@@ -37,9 +37,10 @@ class MakeGroupsListCubit extends Cubit<List<String>>{
      final localGroupKey = groupBox.keyAt(index) as int;
       final taskBox = await BoxManager.instance.openTaskBox(localGroupKey);
       newTasks = taskBox.values.toList();
-      firstTasks[index] = (' - ' + newTasks[0].text.toString());
-
-
+     // print(newTasks.toString() + index.toString() + 'ffffffffffffffffffffffffffffff');
+      print('our index ' + index.toString());
+print(' - ' + (newTasks[0] == emptyList[0] ? newTasks[0].text : myString).toString() + index.toString());
+      firstTasks[index] = (' - ' + (newTasks[0].text.isNotEmpty ? newTasks[0].text: 'empty').toString());
        emit(firstTasks.toList());
   }
 
