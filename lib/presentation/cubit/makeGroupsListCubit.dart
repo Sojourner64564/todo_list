@@ -20,13 +20,16 @@ class MakeGroupsListCubit extends Cubit<List<String>>{
   var newTasks = <Task>[];
   int groups=0;
 //  String? firstTask;
-  var firstTasks = <String>[];
+  var firstTasks = <String>['загрузка...','загрузка...','загрузка...','загрузка...','загрузка...'];
 
 
 
   void getAmountOfGroups(List<Group> groupsLocal){
     groups = groupsLocal.toList().length;
     print('$groups ====getAmountOfGroups его сообщение=============================================================');
+    for(int i=0;i<groups;i++){
+      initInGroupsState(i);
+    }
   }
 
   void initInGroupsState(int index) async{
@@ -34,12 +37,14 @@ class MakeGroupsListCubit extends Cubit<List<String>>{
      final localGroupKey = groupBox.keyAt(index) as int;
       final taskBox = await BoxManager.instance.openTaskBox(localGroupKey);
       newTasks = taskBox.values.toList();
-      firstTasks.add(newTasks[0].text != null ? newTasks[0].text : 'Нету');
-      print(firstTasks.length);
-    print(firstTasks[index].toString());
+      firstTasks[index] = (' - ' + newTasks[0].text.toString());
+
+
+       emit(firstTasks.toList());
+  }
+
+  void fillList(){
     emit(firstTasks.toList());
-
-
   }
 
 

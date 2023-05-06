@@ -134,7 +134,8 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
 
   @override
   void initState() {
-    widget.makeGroupsListCubit.initInGroupsState(widget.index);
+  //  widget.makeGroupsListCubit.initInGroupsState(widget.index);
+    widget.makeGroupsListCubit.fillList();
     updateNames();
     super.initState();
   }
@@ -158,6 +159,8 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
           bloc: widget.updateCubit,
           listener: (context, state){
             updateNames();
+            widget.makeGroupsListCubit.initInGroupsState(widget.index);
+            //widget.updateCubit.initAmountOfGroup(widget.makeGroupsListCubit);
           },
           builder: (context, state) {
             return ListTile(
@@ -168,7 +171,9 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
                   initTaskNames();
                 },*/
                 builder: (context, state){
-                   // return Text(state[widget.index]);
+                  return Text(state[widget.index]);
+                  //print((state[widget.index]).toString() +  ' STATES ');
+                  //print( widget.index.toString() + ' INDEX BLOCBULDER INDEX INDEX INDEX INDEX INDEX INDEX INDEX INDEX ');
                     return Text(' - Нет напоминания'); //:TODO--------------------------------------------
                },
               ),
@@ -205,7 +210,9 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
                     context,
                     widget.index,
                     widget.updateCubit,
-                    widget.tasksUpdateCubit); //TODO: voennoe prestuplenie
+                    widget.tasksUpdateCubit,
+                    widget.makeGroupsListCubit
+                ); //TODO: voennoe prestuplenie
               },
               onLongPress: () {
                 changeBoolean();

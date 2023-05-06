@@ -6,32 +6,31 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../domain/entity/group.dart';
 import '../../domain/entity/task.dart';
 import '../../presentation/cubit/cubit.dart';
+import '../../presentation/cubit/makeGroupsListCubit.dart';
 import '../../presentation/cubit/tasksUpdateCubit.dart';
 import '../../providers/routes/routes.gr.dart';
 
 class TasksWidget extends StatefulWidget{
-  TasksWidget({required this.updateCubit, required this.groupKey, required this.tasksUpdateCubit, required this.index});
+  TasksWidget({required this.updateCubit, required this.groupKey, required this.tasksUpdateCubit, required this.index, required this.makeGroupsListCubit});
   final UpdateCubit updateCubit;
   final int groupKey;
   final TasksUpdateCubit tasksUpdateCubit;
   int index = 0;
+  final MakeGroupsListCubit makeGroupsListCubit;
 
   @override
   State<TasksWidget> createState() => _TasksWidgetState();
 }
 
 class _TasksWidgetState extends State<TasksWidget> {
-
   getIndex(){
     widget.tasksUpdateCubit.groupKey = widget.groupKey;
   }
-
   @override
   void initState() {
     getIndex();
     setState(() {
     });
-
     super.initState();
   }
 
@@ -49,11 +48,14 @@ class _TasksWidgetState extends State<TasksWidget> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          context.router.push(TaskFormWidgetRouter(updateCubit: widget.updateCubit, tasksUpdateCubit: widget.tasksUpdateCubit));
+          context.router.push(TaskFormWidgetRouter(updateCubit: widget.updateCubit,
+            tasksUpdateCubit: widget.tasksUpdateCubit, makeGroupsListCubit: widget.makeGroupsListCubit,
+          ));
         },
         child: Icon(Icons.add),
       ),
-      body: TaskListWidget(tasksUpdateCubit: widget.tasksUpdateCubit, groupKey:widget.groupKey, index: widget.index,),
+      body: TaskListWidget(tasksUpdateCubit: widget.tasksUpdateCubit, groupKey:widget.groupKey,
+        index: widget.index, makeGroupsListCubit: widget.makeGroupsListCubit, updateCubit: widget.updateCubit,),
       );
   }
 }
@@ -62,10 +64,12 @@ class _TasksWidgetState extends State<TasksWidget> {
 
 
 class TaskListWidget extends StatefulWidget{
-   TaskListWidget({super.key, required this.tasksUpdateCubit, required this.groupKey, required this.index});
+   TaskListWidget({super.key, required this.tasksUpdateCubit, required this.groupKey, required this.index, required this.makeGroupsListCubit, required this.updateCubit});
   final int groupKey;
   final TasksUpdateCubit tasksUpdateCubit;
   int index = 0;
+  final MakeGroupsListCubit makeGroupsListCubit;
+  final UpdateCubit updateCubit;
 
   @override
   State<TaskListWidget> createState() => _TaskListWidgetState();
@@ -87,7 +91,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
             return ListView.separated(
               itemCount: state.length,
               itemBuilder: (BuildContext context, int index){
-                return TaskListRowWidget(index: index, tasksUpdateCubit: widget.tasksUpdateCubit);
+                return TaskListRowWidget(index: index, tasksUpdateCubit: widget.tasksUpdateCubit, makeGroupsListCubit: widget.makeGroupsListCubit, updateCubit: widget.updateCubit,);
               },
               separatorBuilder: (BuildContext context, int index){
                 return const Divider(height: 3, color: Colors.black87,);
@@ -100,9 +104,11 @@ class _TaskListWidgetState extends State<TaskListWidget> {
 
 
 class TaskListRowWidget extends StatelessWidget{
-  const TaskListRowWidget({super.key, required this.index, required this.tasksUpdateCubit});
+  const TaskListRowWidget({super.key, required this.index, required this.tasksUpdateCubit, required this.makeGroupsListCubit, required this.updateCubit});
   final int index;
   final TasksUpdateCubit tasksUpdateCubit;
+  final MakeGroupsListCubit makeGroupsListCubit;
+  final UpdateCubit updateCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +120,7 @@ class TaskListRowWidget extends StatelessWidget{
           color: Colors.redAccent,
           icon: Icons.delete,
           onTap: (){
-            tasksUpdateCubit.deleteTask(index);
+            tasksUpdateCubit.deleteTask(index, makeGroupsListCubit, updateCubit);
           },
         ),
       ],

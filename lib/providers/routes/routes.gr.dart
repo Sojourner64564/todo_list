@@ -57,6 +57,7 @@ class AppRouter extends _i7.RootStackRouter {
           groupKey: args.groupKey,
           tasksUpdateCubit: args.tasksUpdateCubit,
           index: args.index,
+          makeGroupsListCubit: args.makeGroupsListCubit,
         ),
       );
     },
@@ -67,6 +68,7 @@ class AppRouter extends _i7.RootStackRouter {
         child: _i5.TaskFormWidget(
           updateCubit: args.updateCubit,
           tasksUpdateCubit: args.tasksUpdateCubit,
+          makeGroupsListCubit: args.makeGroupsListCubit,
         ),
       );
     },
@@ -166,6 +168,7 @@ class TasksWidgetRouter extends _i7.PageRouteInfo<TasksWidgetRouterArgs> {
     required int groupKey,
     required _i10.TasksUpdateCubit tasksUpdateCubit,
     required int index,
+    required _i11.MakeGroupsListCubit makeGroupsListCubit,
   }) : super(
           TasksWidgetRouter.name,
           path: 'Tasks',
@@ -174,6 +177,7 @@ class TasksWidgetRouter extends _i7.PageRouteInfo<TasksWidgetRouterArgs> {
             groupKey: groupKey,
             tasksUpdateCubit: tasksUpdateCubit,
             index: index,
+            makeGroupsListCubit: makeGroupsListCubit,
           ),
         );
 
@@ -186,6 +190,7 @@ class TasksWidgetRouterArgs {
     required this.groupKey,
     required this.tasksUpdateCubit,
     required this.index,
+    required this.makeGroupsListCubit,
   });
 
   final _i9.UpdateCubit updateCubit;
@@ -196,9 +201,11 @@ class TasksWidgetRouterArgs {
 
   final int index;
 
+  final _i11.MakeGroupsListCubit makeGroupsListCubit;
+
   @override
   String toString() {
-    return 'TasksWidgetRouterArgs{updateCubit: $updateCubit, groupKey: $groupKey, tasksUpdateCubit: $tasksUpdateCubit, index: $index}';
+    return 'TasksWidgetRouterArgs{updateCubit: $updateCubit, groupKey: $groupKey, tasksUpdateCubit: $tasksUpdateCubit, index: $index, makeGroupsListCubit: $makeGroupsListCubit}';
   }
 }
 
@@ -208,12 +215,14 @@ class TaskFormWidgetRouter extends _i7.PageRouteInfo<TaskFormWidgetRouterArgs> {
   TaskFormWidgetRouter({
     required _i9.UpdateCubit updateCubit,
     required _i10.TasksUpdateCubit tasksUpdateCubit,
+    required _i11.MakeGroupsListCubit makeGroupsListCubit,
   }) : super(
           TaskFormWidgetRouter.name,
           path: 'TaksForm',
           args: TaskFormWidgetRouterArgs(
             updateCubit: updateCubit,
             tasksUpdateCubit: tasksUpdateCubit,
+            makeGroupsListCubit: makeGroupsListCubit,
           ),
         );
 
@@ -224,15 +233,18 @@ class TaskFormWidgetRouterArgs {
   const TaskFormWidgetRouterArgs({
     required this.updateCubit,
     required this.tasksUpdateCubit,
+    required this.makeGroupsListCubit,
   });
 
   final _i9.UpdateCubit updateCubit;
 
   final _i10.TasksUpdateCubit tasksUpdateCubit;
 
+  final _i11.MakeGroupsListCubit makeGroupsListCubit;
+
   @override
   String toString() {
-    return 'TaskFormWidgetRouterArgs{updateCubit: $updateCubit, tasksUpdateCubit: $tasksUpdateCubit}';
+    return 'TaskFormWidgetRouterArgs{updateCubit: $updateCubit, tasksUpdateCubit: $tasksUpdateCubit, makeGroupsListCubit: $makeGroupsListCubit}';
   }
 }
 

@@ -9,68 +9,6 @@ import 'package:todo_list/presentation/cubit/tasksUpdateCubit.dart';
 import '../../domain/entity/group.dart';
 import '../../domain/entity/task.dart';
 import '../../providers/routes/routes.gr.dart';
-/*
-class UpdateCubit extends Cubit<List>{
-  UpdateCubit() : super([]);
-  var groupName = '';
-  var tasks = <Task>[];
-  //var groups = <Group>[];
- // var groupsNew = <Group>[];
-
-
-
-
-  void navigateBack(BuildContext context){
-    context.router.pop();
-  }
-
-  void initFirstState() async{
-    if(!Hive.isAdapterRegistered(1)){
-      Hive.registerAdapter(GroupAdapter());
-    }
-    final box = await Hive.openBox<Group>('groups_box');
-    emit(box.values.toList());
-  }
-
-
-  void saveGroup(BuildContext context, MakeGroupsListCubit makeGroupsListCubit, UpdateCubit updateCubit) async{
-      if(groupName.isEmpty) return;
-      if(!Hive.isAdapterRegistered(1)){
-        Hive.registerAdapter(GroupAdapter());
-      }
-      final box = await Hive.openBox<Group>('groups_box');
-      final group = Group(name: groupName);
-      await box.add(group);
-      emit(box.values.toList());
-      makeGroupsListCubit.makeList(); // раньше не было
-      navigateBack(context);
-  }
-
-  void deleteGroup(int index, MakeGroupsListCubit makeGroupsListCubit, UpdateCubit updateCubit) async{
-    if(!Hive.isAdapterRegistered(1)){
-      Hive.registerAdapter(GroupAdapter());
-    }
-    final box = await Hive.openBox<Group>('groups_box');
-    await box.deleteAt(index);
-    makeGroupsListCubit.makeList();
-    emit(box.values.toList());
-  }
-
-  Future<int> specialForKey(int groupIndex) async{
-    final box = await Hive.openBox<Group>('groups_box');
-    final groupKey = box.keyAt(groupIndex) as int;
-    return groupKey;
-  }
-
-
-  void showTasksWidget(BuildContext context, int groupIndex, UpdateCubit updateCubit, TasksUpdateCubit tasksUpdateCubit) async{
-    final box = await Hive.openBox<Group>('groups_box');
-    final groupKey = box.keyAt(groupIndex) as int;
-     context.router.push(TasksWidgetRouter(updateCubit: updateCubit, groupKey: groupKey, tasksUpdateCubit: tasksUpdateCubit, index: groupIndex));
-   }
-
-}
-*/
 
 
 
@@ -88,7 +26,6 @@ class UpdateCubit extends Cubit<List>{
     final box = await BoxManager.instance.openGroupBox();
     groups = box.values.toList();
     makeGroupsListCubit.getAmountOfGroups(groups);
-    //emit(box.values.toList());
   }
 
 
@@ -105,6 +42,7 @@ class UpdateCubit extends Cubit<List>{
     await box.add(group);
     emit(box.values.toList());
     initGroupState();
+    initAmountOfGroup(makeGroupsListCubit);
     navigateBack(context);
   }
 
@@ -115,6 +53,7 @@ class UpdateCubit extends Cubit<List>{
     await Hive.deleteBoxFromDisk(taskBoxName);
     await box.deleteAt(groupIndex); //deleteAt
     initGroupState();
+    initAmountOfGroup(makeGroupsListCubit);
     emit(box.values.toList());
   }
 
@@ -127,10 +66,10 @@ class UpdateCubit extends Cubit<List>{
     emit(groups.toList());
   }
 
-  void showTasksWidget(BuildContext context, int groupIndex, UpdateCubit updateCubit, TasksUpdateCubit tasksUpdateCubit) async{
+  void showTasksWidget(BuildContext context, int groupIndex, UpdateCubit updateCubit, TasksUpdateCubit tasksUpdateCubit, MakeGroupsListCubit makeGroupsListCubit) async{
     final box = await BoxManager.instance.openGroupBox();
     final groupKey = box.keyAt(groupIndex) as int;
-    context.router.push(TasksWidgetRouter(updateCubit: updateCubit, groupKey: groupKey, tasksUpdateCubit: tasksUpdateCubit, index: groupIndex));
+    context.router.push(TasksWidgetRouter(updateCubit: updateCubit, groupKey: groupKey, tasksUpdateCubit: tasksUpdateCubit, index: groupIndex, makeGroupsListCubit:makeGroupsListCubit));
   }
 
 }
