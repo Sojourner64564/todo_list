@@ -51,7 +51,7 @@ class MakeGroupsListCubit extends Cubit<List<String>> {
     // print(newTasks.toString() + index.toString() + 'ffffffffffffffffffffffffffffff');
     //print('our index ' + index.toString());
     // print(' - ' + (newTasks.length != 0 ? newTasks[0].text : myString).toString() + index.toString());
-    firstTasks[index] = (' - ' + (newTasks.length != 0 ? newTasks[0].text : 'пустая группа').toString());
+    firstTasks[index] = (' - ' + (newTasks.length != 0 ? newTasks[0].text : 'пустая группа').toString());//huesos moment
     emit(firstTasks.toList());
   }
 
