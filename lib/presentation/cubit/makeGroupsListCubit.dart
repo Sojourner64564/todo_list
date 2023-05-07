@@ -13,13 +13,7 @@ class MakeGroupsListCubit extends Cubit<List<String>> {
   var newTasks = <Task>[];
   int groups = 0;
 //  String? firstTask;
-  var firstTasks = <String>[
-    // 'загрузка...',
-    // 'загрузка...',
-    // 'загрузка...',
-    // 'загрузка...',
-    // 'загрузка...',
-  ];
+  var firstTasks = <String>[];
 
   void controlTheList(List<Group> groupsLocal){
     for(int i=0;i<groupsLocal.length;i++){

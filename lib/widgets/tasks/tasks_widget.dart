@@ -52,7 +52,7 @@ class _TasksWidgetState extends State<TasksWidget> {
             tasksUpdateCubit: widget.tasksUpdateCubit, makeGroupsListCubit: widget.makeGroupsListCubit,
           ));
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       body: TaskListWidget(tasksUpdateCubit: widget.tasksUpdateCubit, groupKey:widget.groupKey,
         index: widget.index, makeGroupsListCubit: widget.makeGroupsListCubit, updateCubit: widget.updateCubit,),
@@ -85,20 +85,43 @@ class _TaskListWidgetState extends State<TaskListWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TasksUpdateCubit, List>(
+    return Stack(
+      children: [
+        BlocBuilder<TasksUpdateCubit, List>(
           bloc: widget.tasksUpdateCubit,
           builder: (context, state) {
-            return ListView.separated(
-              itemCount: state.length,
-              itemBuilder: (BuildContext context, int index){
-                return TaskListRowWidget(index: index, tasksUpdateCubit: widget.tasksUpdateCubit, makeGroupsListCubit: widget.makeGroupsListCubit, updateCubit: widget.updateCubit,);
-              },
-              separatorBuilder: (BuildContext context, int index){
-                return const Divider(height: 3, color: Colors.black87,);
-              },
+            if(state.length == 0){
+            return const Center(
+              heightFactor: 5,
+                child: Text('Нет заметок',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 18,
+                ),
+                ),
             );
+            }
+            else{
+              return const Text('');
+            }
           },
-          );
+        ),
+        BlocBuilder<TasksUpdateCubit, List>(
+            bloc: widget.tasksUpdateCubit,
+            builder: (context, state) {
+              return ListView.separated(
+                itemCount: state.length,
+                itemBuilder: (BuildContext context, int index){
+                  return TaskListRowWidget(index: index, tasksUpdateCubit: widget.tasksUpdateCubit, makeGroupsListCubit: widget.makeGroupsListCubit, updateCubit: widget.updateCubit,);
+                },
+                separatorBuilder: (BuildContext context, int index){
+                  return const Divider(height: 3, color: Colors.black87,);
+                },
+              );
+            },
+            ),
+    ],
+    );
   }
 }
 

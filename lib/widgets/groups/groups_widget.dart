@@ -134,7 +134,6 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
 
   @override
   void initState() {
-  //  widget.makeGroupsListCubit.initInGroupsState(widget.index);
     widget.makeGroupsListCubit.fillList();
     updateNames();
     super.initState();
