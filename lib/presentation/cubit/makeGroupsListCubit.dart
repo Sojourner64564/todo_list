@@ -39,7 +39,7 @@ String myString = 'huilo';
       newTasks = taskBox.values.toList();
      // print(newTasks.toString() + index.toString() + 'ffffffffffffffffffffffffffffff');
       print('our index ' + index.toString());
-print(' - ' + (newTasks[0] == emptyList[0] ? newTasks[0].text : myString).toString() + index.toString());
+print(' - ' + (newTasks[0] != null ? newTasks[0].text : myString).toString() + index.toString());
       firstTasks[index] = (' - ' + (newTasks[0].text.isNotEmpty ? newTasks[0].text: 'empty').toString());
        emit(firstTasks.toList());
   }
