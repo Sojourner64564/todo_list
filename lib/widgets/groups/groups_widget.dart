@@ -171,9 +171,6 @@ class _GroupListRowWidgetState extends State<_GroupListRowWidget> {
                 },*/
                 builder: (context, state){
                   return Text(state[widget.index]);
-                  //print((state[widget.index]).toString() +  ' STATES ');
-                  //print( widget.index.toString() + ' INDEX BLOCBULDER INDEX INDEX INDEX INDEX INDEX INDEX INDEX INDEX ');
-                    return Text(' - Нет напоминания'); //:TODO--------------------------------------------
                },
               ),
               title: TextField(
