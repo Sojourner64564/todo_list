@@ -13,8 +13,10 @@ class GroupFromWidget extends StatelessWidget{
    @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(40, 132, 126, 1),
       appBar: AppBar(
-        title: const Text('Новая Группа'),
+        backgroundColor: const Color.fromRGBO(235, 165, 112, 1),
+        title: const Text('Создать группу'),
     ),
         body: Center(
             child: Container(
@@ -25,6 +27,7 @@ class GroupFromWidget extends StatelessWidget{
             ),
         ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromRGBO(161, 113, 77, 1),
         onPressed: (){
           updateCubit.saveGroup(context, makeGroupsListCubit, updateCubit);
         },
@@ -44,20 +47,34 @@ class _GroupNameWidget extends StatelessWidget{
 
    @override
   Widget build(BuildContext context) {
-    return  Column(
+    return Column(
       children: [
-        TextField(
-          autofocus: true,
-          decoration:  const InputDecoration(
-            border:  OutlineInputBorder(),
-            hintText: 'Имя группы',
+        SizedBox(height: 20),
+        Container(
+          width: 600,
+          height: 100,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
           ),
-          onEditingComplete: (){
-            updateCubit.saveGroup(context, makeGroupsListCubit,updateCubit );
-          },
-          onChanged: (value){
-            updateCubit.groupName = value;
-          },
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: TextField(
+                autofocus: true,
+                decoration:  const InputDecoration(
+                  border:  InputBorder.none,
+                  hintText: 'Имя группы',
+                ),
+                onEditingComplete: (){
+                  updateCubit.saveGroup(context, makeGroupsListCubit,updateCubit );
+                },
+                onChanged: (value){
+                  updateCubit.groupName = value;
+                },
+              ),
+            ),
+          ),
         ),
       ],
     );

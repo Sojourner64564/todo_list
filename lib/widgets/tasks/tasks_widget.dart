@@ -38,7 +38,9 @@ class _TasksWidgetState extends State<TasksWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(40, 132, 126, 1),
       appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(105, 137, 199, 1),
         title: BlocBuilder<UpdateCubit, List>(
             bloc: widget.updateCubit,
             builder: (context, state) {
@@ -47,6 +49,7 @@ class _TasksWidgetState extends State<TasksWidget> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromRGBO(57, 74, 107, 1),
         onPressed: (){
           context.router.push(TaskFormWidgetRouter(updateCubit: widget.updateCubit,
             tasksUpdateCubit: widget.tasksUpdateCubit, makeGroupsListCubit: widget.makeGroupsListCubit,
@@ -95,7 +98,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
               heightFactor: 5,
                 child: Text('Нет заметок',
                 style: TextStyle(
-                  color: Colors.grey,
+                  color: Colors.white70,
                   fontSize: 18,
                 ),
                 ),
@@ -106,20 +109,23 @@ class _TaskListWidgetState extends State<TaskListWidget> {
             }
           },
         ),
-        BlocBuilder<TasksUpdateCubit, List>(
-            bloc: widget.tasksUpdateCubit,
-            builder: (context, state) {
-              return ListView.separated(
-                itemCount: state.length,
-                itemBuilder: (BuildContext context, int index){
-                  return TaskListRowWidget(index: index, tasksUpdateCubit: widget.tasksUpdateCubit, makeGroupsListCubit: widget.makeGroupsListCubit, updateCubit: widget.updateCubit,);
-                },
-                separatorBuilder: (BuildContext context, int index){
-                  return const Divider(height: 3, color: Colors.black87,);
-                },
-              );
-            },
-            ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+          child: BlocBuilder<TasksUpdateCubit, List>(
+              bloc: widget.tasksUpdateCubit,
+              builder: (context, state) {
+                return ListView.separated(
+                  itemCount: state.length,
+                  itemBuilder: (BuildContext context, int index){
+                    return TaskListRowWidget(index: index, tasksUpdateCubit: widget.tasksUpdateCubit, makeGroupsListCubit: widget.makeGroupsListCubit, updateCubit: widget.updateCubit,);
+                  },
+                  separatorBuilder: (BuildContext context, int index){
+                    return const Divider(height: 3, color: Colors.black87,);
+                  },
+                );
+              },
+              ),
+        ),
     ],
     );
   }
@@ -151,9 +157,11 @@ class TaskListRowWidget extends StatelessWidget{
           bloc: tasksUpdateCubit,
           builder: (context, state) {
             return ListTile(
+              tileColor: Colors.white,
               leading: Text('#$index'),
-              title:  Text((state[index] as Task).text),
+              title:  Text((state[index] as Task).text,),
               trailing: Checkbox(
+                activeColor: const Color.fromRGBO(27, 114, 17, 1),
                 value: ((state[index] as Task).isDone),
                 onChanged: (bool? value) {
                     tasksUpdateCubit.doneToggle(index, value);
